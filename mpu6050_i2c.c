@@ -42,12 +42,13 @@ void mpu6050_read_adjusted(mpu_reading* r) {
 
 void mpu6050_calibrate_gyro(mpu_reading* r) {
     uint32_t gyro_cumm[3] = {0, 0, 0};
-	const int N = 20000;
+	const int N = 2000;
 	for(int i = 0; i < N; i++) {
 		mpu6050_read_raw(r);
 		for(int j = 0; j < 3; j++) {
 			gyro_cumm[j] += r->gyro[j];
 		}
+        sleep_ms(2);
 	}
 	for(int j = 0; j < 3; j++) {
 		r->g_offset[j] = gyro_cumm[j] / N;
